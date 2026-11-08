@@ -1,0 +1,70 @@
+{
+ "_base": "https://raw.githubusercontent.com/christiandimitri/hypnotic-140-strudel/main/hypnotic-145/samples/",
+ "atmo": [
+  "atmo/0.flac",
+  "atmo/1.flac"
+ ],
+ "bass": [
+  "bass/0.flac",
+  "bass/1.flac",
+  "bass/2.flac",
+  "bass/3.flac"
+ ],
+ "clap": [
+  "clap/0.flac",
+  "clap/1.flac"
+ ],
+ "fx": [
+  "fx/0.flac",
+  "fx/1.flac"
+ ],
+ "hatloop": [
+  "hatloop/0.flac",
+  "hatloop/1.flac"
+ ],
+ "hh": [
+  "hh/0.flac",
+  "hh/1.flac"
+ ],
+ "hiss": [
+  "hiss/0.flac",
+  "hiss/1.flac"
+ ],
+ "kick": [
+  "kick/0.flac"
+ ],
+ "oh": [
+  "oh/0.flac",
+  "oh/1.flac"
+ ],
+ "perc": [
+  "perc/0.flac",
+  "perc/1.flac",
+  "perc/2.flac",
+  "perc/3.flac",
+  "perc/4.flac"
+ ],
+ "percloop": [
+  "percloop/0.flac",
+  "percloop/1.flac",
+  "percloop/2.flac"
+ ],
+ "ride": [
+  "ride/0.flac"
+ ],
+ "synth": [
+  "synth/0.flac",
+  "synth/1.flac",
+  "synth/2.flac"
+ ],
+ "top": [
+  "top/0.flac",
+  "top/1.flac"
+ ],
+ "vox": [
+  "vox/0.flac",
+  "vox/1.flac",
+  "vox/2.flac",
+  "vox/3.flac"
+ ]
+}
