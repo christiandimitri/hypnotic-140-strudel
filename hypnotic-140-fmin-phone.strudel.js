@@ -25,8 +25,8 @@ const section = (startBar, bars, groups) => [bars, stack(...groups.map(g =>
     .slow(2).gain(level[g] * master)))]
 
 // silent 4-bar count-in that downloads every piece, intro first
-const load = (from, to) => s(Array.from({ length: to - from }, (_, j) =>
-  ['drums', 'low', 'music', 'space'].map(g => 'q_' + g + '_' + String(from + j).padStart(3, '0')).join(' ')).join(' ')).gain(0)
+const load = (from, to) => stack(...Array.from({ length: to - from }, (_, j) =>
+  ['drums', 'low', 'music', 'space'].map(g => piece(g, from + j))).flat()).gain(0)
 const countIn = cat(load(0, 24), load(24, 48), load(48, 72), load(72, 96))
 
 arrange(
