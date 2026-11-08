@@ -6,7 +6,7 @@ The audio isn't synthesized. Each track was exported from Ableton Live with its 
 
 ## Play it
 
-- **Phone:** use `hypnotic-140-fmin-phone.strudel.js`. It merges the 16 stems into 4 groups (drums, low, music, space) so it fits in a phone browser's memory. It downloads about 21 MB.
+- **Phone:** use `hypnotic-140-fmin-phone.strudel.js`. It merges the 16 stems into 4 groups (drums, low, music, space) and cuts them into 2-bar pieces, so it fits in a phone browser's memory and stays in time. It downloads about 22 MB.
 - **Laptop:** use `hypnotic-140-fmin.strudel.js`, with all 16 tracks separate. It downloads about 62 MB.
 
 
@@ -16,7 +16,7 @@ To mute or rebalance a track, edit the `level` table at the top of the code. `1`
 
 ## Contents
 
-- `samples-phone/<group>/<section>.mp3`: the 4-group cuts used by the phone version.
+- `samples-phone2/<group>/<NNN>.mp3`: the 4 groups cut into 2-bar pieces for the phone version. Piece n starts at bar 2n+1.
 - `samples/<track>/<section>.mp3`: one cut per track per section, MP3 at 128 kbps. Silent sections were left out.
 - `strudel.json`: the sample map that Strudel loads with `samples('github:christiandimitri/hypnotic-140-strudel')`.
 - `hypnotic-140-fmin.strudel.js`: the arrangement.

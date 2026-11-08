@@ -1,11 +1,11 @@
 // Hypnotic 140 F min - YASYNTHA - PHONE version
-// Your real Ableton stems (with all plugins), merged into 4 groups so it fits in
-// a phone browser's memory. Same 16 sections, same bars as the Live arrangement.
-// First play: it loads ~21 MB during the 2-bar count-in. If the start is out of
-// sync, press stop and play again - it's cached after the first load.
+// Your real Ableton stems (all plugins), rendered at 140 BPM, merged into 4 groups
+// and cut into 2-bar pieces. Same 16 sections, same bars as the Live arrangement.
+// The 4-bar silent count-in downloads the audio (~22 MB). If anything sounds
+// out of time on the very first play, press stop and play again (it's cached).
 
 samples('github:christiandimitri/hypnotic-140-strudel')
-setcpm(140/4) // 1 cycle = 1 bar at 140 BPM
+setcpm(140/4) // 140 BPM, 1 cycle = 1 bar
 
 // 0 = mute, 1 = as mixed in Live
 const level = {
@@ -14,32 +14,37 @@ const level = {
   music: 1,  // dub chord, atmos x2, vox, 13-Audio FX, vocoder textures
   space: 1,  // reverb + delay returns
 }
-const master = 1.4 // overall volume (stems are pre-mastering, so a bit quiet)
+const master = 1.4 // overall volume (stems are pre-mastering)
 
-const cut = (group, sec, bars) =>
-  s('p_' + group + '_' + String(sec).padStart(2, '0')).slow(bars).gain(level[group] * master)
+// one 2-bar piece of a group; piece n starts at bar 2n+1
+const piece = (g, n) => s('q_' + g + '_' + String(n).padStart(3, '0'))
 
-const section = (sec, bars, groups) => [bars, stack(...groups.map(g => cut(g, sec, bars)))]
+// a section = the group's 2-bar pieces played back to back from its first bar
+const section = (startBar, bars, groups) => [bars, stack(...groups.map(g =>
+  cat(...Array.from({ length: bars / 2 }, (_, j) => piece(g, (startBar - 1) / 2 + j)))
+    .slow(2).gain(level[g] * master)))]
 
-// silent count-in that starts downloading every cut
-const warmup = s("[p_drums_00 p_drums_01 p_drums_02 p_drums_03 p_drums_04 p_drums_05 p_drums_06 p_drums_07 p_drums_08 p_drums_09 p_drums_10 p_drums_11 p_drums_12 p_drums_13 p_drums_14 p_drums_15 p_low_00 p_low_01 p_low_02 p_low_03 p_low_04 p_low_05 p_low_06 p_low_07 p_low_10 p_low_11 p_low_12 p_low_13 p_low_14 p_low_15 p_music_00 p_music_01 p_music_02 p_music_03 p_music_04 p_music_05 p_music_06 p_music_07 p_music_08 p_music_09 p_music_10 p_music_11 p_music_12 p_music_13 p_music_14 p_music_15 p_space_00 p_space_01 p_space_02 p_space_03 p_space_04 p_space_05 p_space_06 p_space_07 p_space_08 p_space_09 p_space_10 p_space_11 p_space_12 p_space_13 p_space_14 p_space_15]").gain(0)
+// silent 4-bar count-in that downloads every piece, intro first
+const load = (from, to) => s(Array.from({ length: to - from }, (_, j) =>
+  ['drums', 'low', 'music', 'space'].map(g => 'q_' + g + '_' + String(from + j).padStart(3, '0')).join(' ')).join(' ')).gain(0)
+const countIn = cat(load(0, 24), load(24, 48), load(48, 72), load(72, 96))
 
 arrange(
-  [2, warmup],                                        // count-in: loading
-  section( 0,  4, ['drums', 'low', 'music', 'space']),          // bar   1  Intro
-  section( 1,  4, ['drums', 'low', 'music', 'space']),          // bar   5  Perc in
-  section( 2,  8, ['drums', 'low', 'music', 'space']),          // bar   9  Low + hats in
-  section( 3,  6, ['drums', 'low', 'music', 'space']),          // bar  17  Groove build
-  section( 4,  2, ['drums', 'low', 'music', 'space']),          // bar  23  Break 1 (synth intro)
-  section( 5, 32, ['drums', 'low', 'music', 'space']),          // bar  25  Main A
-  section( 6, 16, ['drums', 'low', 'music', 'space']),          // bar  57  Groove (DJ space)
-  section( 7, 24, ['drums', 'low', 'music', 'space']),          // bar  73  Main B (vocal)
-  section( 8,  4, ['drums', 'music', 'space']),                 // bar  97  Break 2 (drone)
-  section( 9,  4, ['drums', 'music', 'space']),                 // bar 101  Build (riser)
-  section(10,  8, ['drums', 'low', 'music', 'space']),          // bar 105  Peak
-  section(11, 32, ['drums', 'low', 'music', 'space']),          // bar 113  Peak (full)
-  section(12, 24, ['drums', 'low', 'music', 'space']),          // bar 145  Wind down
-  section(13,  4, ['drums', 'low', 'music', 'space']),          // bar 169  Outro
-  section(14, 16, ['drums', 'low', 'music', 'space']),          // bar 173  Outro (DJ mix-out)
-  section(15,  4, ['drums', 'low', 'music', 'space'])           // bar 189  Kick only
+  [4, countIn],                                                   // count-in: loading
+  section(  1,  4, ['drums', 'low', 'music', 'space']),  // Intro
+  section(  5,  4, ['drums', 'low', 'music', 'space']),  // Perc in
+  section(  9,  8, ['drums', 'low', 'music', 'space']),  // Low + hats in
+  section( 17,  6, ['drums', 'low', 'music', 'space']),  // Groove build
+  section( 23,  2, ['drums', 'low', 'music', 'space']),  // Break 1 (synth intro)
+  section( 25, 32, ['drums', 'low', 'music', 'space']),  // Main A
+  section( 57, 16, ['drums', 'low', 'music', 'space']),  // Groove (DJ space)
+  section( 73, 24, ['drums', 'low', 'music', 'space']),  // Main B (vocal)
+  section( 97,  4, ['drums', 'music', 'space']),         // Break 2 (drone)
+  section(101,  4, ['drums', 'music', 'space']),         // Build (riser)
+  section(105,  8, ['drums', 'low', 'music', 'space']),  // Peak
+  section(113, 32, ['drums', 'low', 'music', 'space']),  // Peak (full)
+  section(145, 24, ['drums', 'low', 'music', 'space']),  // Wind down
+  section(169,  4, ['drums', 'low', 'music', 'space']),  // Outro
+  section(173, 16, ['drums', 'low', 'music', 'space']),  // Outro (DJ mix-out)
+  section(189,  4, ['drums', 'low', 'music', 'space'])   // Kick only
 )
