@@ -17,6 +17,7 @@ const master = 0.55 // keeps peaks under 0 dBFS in the browser
 // ── arrangement (224 bars ≈ 6:11) ────────────────────────────────
 //   intro groove build mainA break1 mainB  dj  break2 peak wind outro
 const BARS = [16, 16, 16, 32, 8, 32, 16, 8, 32, 16, 32]
+// lane flags use single quotes: in Strudel, double quotes become patterns
 const lane = (flags) => arrange(...flags.split('').map((f, i) => [BARS[i], pure(f === '1' ? 1 : 0)]))
 const sect = (flags, pat) => pat.mask(lane(flags))
 const loopBars = (name, bars, n = 0) => s(name).n(n).slow(bars) // loops are already exactly 145 BPM
@@ -79,24 +80,24 @@ const sweep = s("<~!14 fx:1 ~>").gain(mix.fx * master).orbit(9) // 2-bar fx into
 // ── play ─────────────────────────────────────────────────────────
 //              intro groove build mainA break1 mainB dj break2 peak wind outro
 stack(
-  sect("11110110111", kick),
-  sect("00110110110", clap),
-  sect("01111111111", hats),
-  sect("00010100110", openhat),
-  sect("01110111110", perc),
-  sect("10010010001", hatloop),
-  sect("00010100100", top),
-  sect("00000100100", ride),
-  sect("00000010100", percloop),
-  sect("10001001001", hiss),
-  sect("01100010011", subroll),
-  sect("00010100100", groove),
-  sect("00111000010", synthA),
-  sect("00000100100", synthB),
-  sect("00000000100", synthC),
-  sect("11001011001", atmoA),
-  sect("00010100100", atmoB),
-  sect("00011101100", vox),
-  sect("00001001000", riser),
-  sect("00100100010", sweep),
+  sect('11110110111', kick),
+  sect('00110110110', clap),
+  sect('01111111111', hats),
+  sect('00010100110', openhat),
+  sect('01110111110', perc),
+  sect('10010010001', hatloop),
+  sect('00010100100', top),
+  sect('00000100100', ride),
+  sect('00000010100', percloop),
+  sect('10001001001', hiss),
+  sect('01100010011', subroll),
+  sect('00010100100', groove),
+  sect('00111000010', synthA),
+  sect('00000100100', synthB),
+  sect('00000000100', synthC),
+  sect('11001011001', atmoA),
+  sect('00010100100', atmoB),
+  sect('00011101100', vox),
+  sect('00001001000', riser),
+  sect('00100100010', sweep),
 )
